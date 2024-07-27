@@ -20,9 +20,9 @@ const { Content } = await blog.render();
 
 <Layout title={title} image='' descrption={description}>
     <Main>
-        <Image src={image} alt={"first image"} width={1024} height={768} />
-        <divv class="prose">
+        <Image class={"mx-auto"} src={image} alt={"first image"} width={1024} height={768} />
+        <div class="prose max-w-5xl mx-auto py-4">
             <Content />
-        </divv>
+        </div>
     </Main>
 </Layout>
