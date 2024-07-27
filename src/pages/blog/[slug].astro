@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import Main from "../../components/Main.astro";
+import Layout from "../../layouts/Layout.astro";
+import Image from "astro/components/Image.astro";
+
+export const getStaticPaths = async () => {
+    const blogs = await getCollection("blog");
+    const paths = blogs.map((blog: any) => ({
+        params: { slug: blog.slug },
+        props: { blog },
+    }));
+    return paths;
+}
+
+const { blog } = Astro.props;
+const { title, description, image } = blog["data"];
+const { Content } = await blog.render();
+---
+
+<Layout title={title} image='' descrption={description}>
+    <Main>
+        <Image src={image} alt={"first image"} width={1024} height={768} />
+        <divv class="prose">
+            <Content />
+        </divv>
+    </Main>
+</Layout>
