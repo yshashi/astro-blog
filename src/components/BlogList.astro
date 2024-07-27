@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Card from "./Card.astro";
+
+type Props = {
+    blogs: CollectionEntry<"blog">[];
+};
+const { blogs } = Astro.props;
+---
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {
+        blogs.map((blog: any) => (
+            <Card
+                title={blog.data.title}
+                description={blog.data.description}
+                href={`/blog/${blog.slug}`}
+                image={blog.data.image}
+            />
+        ))
+    }
+</div>

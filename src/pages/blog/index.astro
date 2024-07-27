@@ -2,10 +2,16 @@
 import H1 from "../../components/H1.astro";
 import Main from "../../components/Main.astro";
 import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import BlogList from "../../components/BlogList.astro";
+
+const blogs = await getCollection("blog");
+console.log(blogs);
 ---
 
 <Layout title="Let's Program | Blogs" image='' descrption='Blog website where we build content related to web dev'>
     <Main>
         <H1 title="List of blogs" />
+        <BlogList blogs={blogs} />
     </Main>
 </Layout>
