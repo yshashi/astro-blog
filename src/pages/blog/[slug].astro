@@ -1,28 +1,31 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Main from "../../components/Main.astro";
 import Layout from "../../layouts/Layout.astro";
 import Image from "astro/components/Image.astro";
+import { getEntryBySlug } from "astro:content";
 
-export const getStaticPaths = async () => {
-    const blogs = await getCollection("blog");
-    const paths = blogs.map((blog: any) => ({
-        params: { slug: blog.slug },
-        props: { blog },
-    }));
-    return paths;
+type props = {
+  blog: CollectionEntry<"blog">;
+};
+
+const { slug } = Astro.params;
+const blog = await getEntryBySlug("blog", slug as string);
+
+if (!blog) {
+    return Astro.redirect("/404");
 }
 
-const { blog } = Astro.props;
-const { title, description, image } = blog["data"];
+const { title, description, image } = blog.data;
 const { Content } = await blog.render();
+
 ---
 
-<Layout title={title} image='' descrption={description}>
-    <Main>
-        <Image class={"mx-auto"} src={image} alt={"first image"} width={1024} height={768} />
-        <div class="prose max-w-5xl mx-auto py-4">
-            <Content />
-        </div>
-    </Main>
+<Layout title={title} image="" descrption={description}>
+  <Main>
+    <Image class={"mx-auto"} src={image} alt={"first image"} width={1024} height={768} />
+    <div class="prose max-w-5xl mx-auto py-4">
+      <Content />
+    </div>
+  </Main>
 </Layout>
